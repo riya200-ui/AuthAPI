@@ -1,57 +1,82 @@
-import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
+import nodemailer from "nodemailer";
 
-const { OAuth2 } = google.auth;
-const OAUTH_PLAYGROUND = 'https://developers.google.com/oauthplayground';
+class NodeMail {
+  async sendEmail(otp: number) {
+    let transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "emailriya23@gmail.com",
+        pass: "@ppleUk9",
+      },
+    });
 
-const oauth2Client = new OAuth2(
-  process.env.MAILING_SERVICE_CLIENT_ID,
-  process.env.MAILING_SERVICE_CLIENT_SECRET,
-  OAUTH_PLAYGROUND
-);
+    let message = {
+      from: "gtc <emailriya23@gmail.com>",
+      to: "jaymin <jaymin.darji@gtcsys.com>",
+      subject: "OTP - GTCSYS",
+      text: `OTP is ${otp}`,
+    };
 
-const sendMail = ( url: string, text: string) => {
-  oauth2Client.setCredentials({
-    refresh_token: process.env.MAILING_SERVICE_REFRESH_TOKEN,
-  });
+    let info = await transporter.sendMail(message);
+    console.log("Message sent successfully as %s", info.messageId);
+    return info.messageId;
+  }
+}
 
-  const smtpTransport = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      type: 'oauth2',
-      user: process.env.SENDER_EMAIL_ADDRESS!,
-      clientId: process.env.MAILING_SERVICE_CLIENT_ID!,
-      clientSecret: process.env.MAILING_SERVICE_CLIENT_SECRET!,
-      refreshToken: process.env.MAILING_SERVICE_REFRESH_TOKEN!,
-    },
-  });
+export { NodeMail };
 
-  const mailOptions = {
-    from: process.env.SENDER_EMAIL_ADDRESS!,
-    to: 'process.env.SENDER_EMAIL_ADDRESS!',
-    subject: 'DevAT Channel',
-    html: `
-        <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
-        <h2 style="text-align: center; text-transform: uppercase;color: teal;">Welcome to the DevAT channel.</h2>
-        <p>Congratulations! You're almost set to start using DEVAT✮SHOP.
-            Just click the button below to validate your email address.
-        </p>
-        
-        <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">${text}</a>
-    
-        <p>If the button doesn't work for any reason, you can also click on the link below:</p>
-    
-        <div>${url}</div>
-        </div>
-    `,
-  };
+// import { google } from 'googleapis';
 
-  smtpTransport.sendMail(mailOptions, (err, information) => {
-    if (err) return err;
-    return information;
-  });
-};
+// const { OAuth2 } = google.auth;
+// const OAUTH_PLAYGROUND = 'https://developers.google.com/oauthplayground';
 
-export { sendMail };
+// const oauth2Client = new OAuth2(
+//   process.env.MAILING_SERVICE_CLIENT_ID,
+//   process.env.MAILING_SERVICE_CLIENT_SECRET,
+//   OAUTH_PLAYGROUND
+// );
+
+// const sendMail = ( url: string, text: string) => {
+//   oauth2Client.setCredentials({
+//     refresh_token: process.env.MAILING_SERVICE_REFRESH_TOKEN,
+//   });
+
+//   const smtpTransport = nodemailer.createTransport({
+//     host: 'smtp.gmail.com',
+//     port: 465,
+//     secure: true,
+//     auth: {
+//       // type: 'oauth2',
+//       user: process.env.SENDER_EMAIL_ADDRESS!,
+//       pass: process.env.SENDER_PASSWORD
+//       // clientId: process.env.MAILING_SERVICE_CLIENT_ID!,
+//       // clientSecret: process.env.MAILING_SERVICE_CLIENT_SECRET!,
+//       // refreshToken: process.env.MAILING_SERVICE_REFRESH_TOKEN!,
+//     },
+//   });
+
+//   const mailOptions = {
+//     from: process.env.SENDER_EMAIL_ADDRESS!,
+//     to: 'process.env.SENDER_EMAIL_ADDRESS!',
+//     subject: 'DevAT Channel',
+//     html: `
+//         <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
+//         <h2 style="text-align: center; text-transform: uppercase;color: teal;">Welcome to the DevAT channel.</h2>
+//         <p>Congratulations! You're almost set to start using DEVAT✮SHOP.
+//             Just click the button below to validate your email address.
+//         </p>
+
+//         <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">${text}</a>
+
+//         <p>If the button doesn't work for any reason, you can also click on the link below:</p>
+
+//         <div>${url}</div>
+//         </div>
+//     `,
+//   };
+
+//   smtpTransport.sendMail(mailOptions, (err, information) => {
+//     if (err) return err;
+//     return information;
+//   });
+// };

@@ -1,7 +1,7 @@
 import cloudinary from "cloudinary";
 import { UserControl } from "./User";
 import { Request, Response } from "express";
-import { removeTemp } from "..//utils/removeTemp";
+import { removeTemp } from "../utils/removeTemp";
 import { UploadedFile } from "express-fileupload";
 
 cloudinary.v2.config({

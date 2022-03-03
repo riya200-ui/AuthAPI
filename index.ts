@@ -3,13 +3,11 @@ import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import indexRouter from "./src/routes";
 import helmet from "helmet";
 
-import userRouter from "./routes/user";
-
-// import path from 'path';
-// import fileUpload from 'express-fileupload';
+// import path from "path";
+// import fileUpload from "express-fileupload";
 
 (() => {
   const app = express();
@@ -21,7 +19,7 @@ import userRouter from "./routes/user";
   app.use(helmet());
 
   // routes
-  app.use("/user", userRouter);
+  app.use("/", indexRouter);
   app.get("/", (_req: Request, res: Response) => {
     res.send(" <div><h1>God bless humanity!</h1></div>  ");
   });

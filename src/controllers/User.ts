@@ -8,6 +8,7 @@ import { Request, Response } from "express";
 //import UserSchema from '../models/UserSchema';
 //import { sendMail } from './sendMail';
 //import nodemailer from 'nodemailer';
+import { NodeMail } from "./SendMail";
 
 export interface TypedRequest<T> extends Request {
   body: T;
@@ -48,6 +49,7 @@ export class UserControl {
         return res.status(400).json({
           message: "This email has already registered in our database",
           error: true,
+          body: req.body,
         });
       }
 
@@ -126,7 +128,7 @@ export class UserControl {
   ) {
     try {
       const { email, password } = req.body;
-
+      console.log("email, password", req.body);
       if (!(email && password))
         return res.status(200).json({
           success: false,
@@ -224,7 +226,6 @@ export class UserControl {
 
   async forgotPassword(req: TypedRequest<{ email: string }>, res: Response) {
     try {
-     
       const { email } = req.body;
       const user = await Users.findOne({ email });
 
@@ -232,6 +233,9 @@ export class UserControl {
         return res.status(404).json({ message: "This email does not exist!" });
       } else {
         const forgotPasswordOTP = Math.floor(100000 + Math.random() * 900000);
+        const nodeMail = new NodeMail();
+        await nodeMail.sendEmail(forgotPasswordOTP);
+
         var where = { email: email };
         await Users.updateOne(where, { forgotPasswordOTP: forgotPasswordOTP });
         return res.status(200).json({
