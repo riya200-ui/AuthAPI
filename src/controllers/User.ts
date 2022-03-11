@@ -1,4 +1,5 @@
 import "dotenv/config";
+//export default mongoose.model("Users", userSchema); Users from here
 import Users from "../models/User";
 
 import bcrypt from "bcrypt";
@@ -61,12 +62,19 @@ export class UserControl {
       }
 
       const passwordHashed = await bcrypt.hash(password, 12);
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      const nodeMail = new NodeMail();
+      await nodeMail.sendEmail(otp,email);
+
+      var where = { email: email };
+      await Users.updateOne(where, { otp: otp });
+        
 
       const newUser = new Users({
         name,
         email,
         password: passwordHashed,
-        otp: 1244,
+        otp ,
         otpVerified: false,
       });
       await newUser.save();
@@ -104,7 +112,8 @@ export class UserControl {
       let user = await Users.findOne({ email, otp });
       if (user) {
         var query = { email: email };
-        await Users.updateOne(query, { otpVerified: true });
+        await Users.updateOne(query, { otpVerified: true,otp: 0 });
+        
 
         return res.status(200).json({
           message: "otp is verified!",
@@ -122,7 +131,7 @@ export class UserControl {
     }
   }
 
-  async login(
+  async signin(
     req: TypedRequest<{ email: string; password: string }>,
     res: Response
   ) {
@@ -135,12 +144,13 @@ export class UserControl {
           message: "Please enter both email and password",
         });
 
-      const userByEmail = await Users.findOne({ email });
+      const userByEmail = await Users.findOne({ email ,otpVerified:true});
       if (!userByEmail) {
         return res
           .status(400)
-          .json({ message: "This email  does not exist in our database!" });
+          .json({ message: "This email  , otpverified does not exist in our database!" });
       }
+      
 
       const hashedPassword = userByEmail.password;
 
@@ -155,50 +165,70 @@ export class UserControl {
           }
         });
       });
-
+      
       if (isPassword) {
-        return res.status(200).json({ message: "Login successed!" });
+        return res.status(200).json({ message: "signin successed!" });
       } else {
         return res.status(400).json({ message: "Password doesn't match!" });
       }
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  }
-
-  async logout(req: TypedRequest<{ password: string }>, res: Response) {
+  };
+  async signout(
+    req: TypedRequest<{ email: string; password: string }>,
+    res: Response
+  ) {
     try {
-      //  get email and password from client
-      const { password } = req.body;
+      const { email, password } = req.body;
+      console.log("email, password", req.body);
+      if (!(email && password))
+        return res.status(200).json({
+          success: false,
+          message: "Please enter both email and password",
+        });
 
-      // check if there is a user in the database with given email address
-      const user = await Users.findOne({ password });
-
-      // check if there is no user with given email return error
-      if (!user) {
-        return res.status(400).json({ message: "password does not match" });
+      const userByEmail = await Users.findOne({ email ,otpVerified:true});
+      if (!userByEmail) {
+        return res
+          .status(400)
+          .json({ message: "This email  , otpverified does not exist in our database!" });
       }
+      
 
-      // compare the hash password and check if its matched or not
-      // const isMatch = await bcrypt.compare(password, user.password);
-      // if (!isMatch) {
-      //  return res.status(400).json({ message: 'Incorrect password!' });
-      // }
+      const hashedPassword = userByEmail.password;
 
-      return res.status(200).json({
-        message: "Logout success!",
+      const isPassword = await new Promise((resolve, reject) => {
+        bcrypt.compare(password, hashedPassword, (err, isMatched) => {
+          if (err) {
+            reject(err);
+          } else if (isMatched) {
+            resolve(isMatched);
+          } else {
+            resolve(isMatched);
+          }
+        });
       });
+      
+      if (isPassword) {
+        return res.status(200).json({ message: "signout successed!" });
+      } else {
+        return res.status(400).json({ message: "Password doesn't match!" });
+      }
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  }
+  };
+  
+  
+ 
 
   getRefreshToken(req: Request, res: Response) {
     try {
       const refreshToken: string = req.cookies?.refreshToken;
 
       if (!refreshToken) {
-        return res.status(400).json({ message: "please login first!" });
+        return res.status(400).json({ message: "please signin first!" });
       }
 
       const tokenAccess = jwt.verify(
@@ -209,7 +239,7 @@ export class UserControl {
       if (!tokenAccess) {
         return res
           .status(403)
-          .json({ message: "please login first to get the token!" });
+          .json({ message: "please signin first to get the token!" });
       }
 
       const user = tokenAccess as Payload;
@@ -234,7 +264,7 @@ export class UserControl {
       } else {
         const forgotPasswordOTP = Math.floor(100000 + Math.random() * 900000);
         const nodeMail = new NodeMail();
-        await nodeMail.sendEmail(forgotPasswordOTP);
+        await nodeMail.sendEmail(forgotPasswordOTP, email);
 
         var where = { email: email };
         await Users.updateOne(where, { forgotPasswordOTP: forgotPasswordOTP });

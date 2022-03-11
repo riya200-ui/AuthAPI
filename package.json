@@ -4,10 +4,15 @@
   "description": "authentication workflow with Oauth guidance and policy",
   "main": "index.ts",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "  ts-node index.ts",
+    "dev": "tsc-watch --onSuccess \"node ./index.ts\"",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "server": "nodemon --exec ts-node index.ts"
   },
   "keywords": [],
+  
   "author": "",
   "engines": {
     "node": "16.0.0"
@@ -52,5 +57,11 @@
     "ts-node": "^10.4.0",
     "tsc-watch": "^4.6.0",
     "typescript": "^4.5.5"
+  },
+  "_moduleAliases": {
+    "@/routes": "dist/routes",
+    "@/controllers": "dist/controllers",
+    "@/middleware": "dist/middleware",
+    "@/models": "dist/models"
   }
 }

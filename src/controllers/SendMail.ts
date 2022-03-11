@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 class NodeMail {
-  async sendEmail(otp: number) {
+  async sendEmail(otp: number,email: string) {
     let transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -12,7 +12,8 @@ class NodeMail {
 
     let message = {
       from: "gtc <emailriya23@gmail.com>",
-      to: "jaymin <jaymin.darji@gtcsys.com>",
+      //to: "riya <panchalriya1976@gmail.com>",
+      to: `riya <${email}>`,
       subject: "OTP - GTCSYS",
       text: `OTP is ${otp}`,
     };

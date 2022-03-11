@@ -1,14 +1,16 @@
 import express from "express";
+//export const userControl = new UserControl(); from user const controller
 import { userControl } from "../controllers/User";
 //const nodemailer = require("nodemailer");
 
 const router = express.Router();
 
+//export class UserControl {async register( register from here
 router.post("/register", userControl.register);
 
 router.post("/emailVerificataion", userControl.emailVerificataion);
 
-router.post("/login", userControl.login);
+router.post("/signin", userControl.signin);
 
 router.post("/forgotPassword", userControl.forgotPassword);
 router.post(
@@ -20,6 +22,6 @@ router.post("/resetPassword", userControl.resetPassword);
 router.post("/changePassword", userControl.changePassword);
 
 router.post("/updateUser", userControl.changePassword);
-router.post("/logout", userControl.logout);
+router.post("/signout", userControl.signout);
 
 export default router;
