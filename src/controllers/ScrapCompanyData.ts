@@ -123,12 +123,12 @@ export class ScrapCompanyDataControl {
     async deletescrapCompanyData(req,res)  {
       try{
         const deleteData = await ScrapCompanyData.findByIdAndDelete(req.params.id);
-        /*if(req.params.id){
+        if(req.params.id){
           return res.status(200).json({
             message: "succes!",
             error: true,
           });
-        }*/
+        }
         if(!req.params.id){
           return res.status(400).send();
         }

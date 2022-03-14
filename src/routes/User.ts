@@ -23,5 +23,6 @@ router.post("/changePassword", userControl.changePassword);
 
 router.post("/updateUser", userControl.changePassword);
 router.post("/signout", userControl.signout);
+router.delete("/:id", userControl.deleteuser);
 
 export default router;

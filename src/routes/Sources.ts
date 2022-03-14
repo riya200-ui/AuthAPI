@@ -24,6 +24,6 @@ router.post('/', sourcesControl.createsource);
 //update sourceid PATCH
 //router.patch('/patchsourceid', sourcesControl.patchsourceid);
 
-//router.delete('/deletesourceid', sourcesControl.deletesourceid);
+router.delete('/:id', sourcesControl.deletesources);
 
 export default router;

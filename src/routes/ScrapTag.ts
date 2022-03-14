@@ -13,5 +13,6 @@ const router = express.Router();
 })*/
 router.get('/', scrapTagControl.scrapTag);
 router.post('/', scrapTagControl.createScrapTag);
+router.delete('/:id', scrapTagControl.deletescrapTag);
 
 export default router;

@@ -89,6 +89,24 @@ export class SourcesControl {
     
     }
 
+    async deletesources(req,res)  {
+      try{
+        const deleteData = await Sources.findByIdAndDelete(req.params.id);
+        /*if(req.params.id){
+          return res.status(200).json({
+            message: "succes!",
+            error: true,
+          });
+        }*/
+        if(!req.params.id){
+          return res.status(400).send();
+        }
+        res.send(deleteData);
+      }catch (error) {
+      return res.status(500).json({ message: error.message });
+      }
+  }
+
    /* async sourceId (req, res) {
       try{
       console.log(req.body);  

@@ -456,17 +456,24 @@ export class UserControl {
     }
   }
 
-  async deleteUser(req: Request, res: Response) {
-    try {
-      await Users.findByIdAndDelete(req.params.id);
-
-      return res
-        .status(200)
-        .json({ message: "your account deleted successfully!" });
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
+  async deleteuser(req,res)  {
+    try{
+      const deleteData = await Users.findByIdAndDelete(req.params.id);
+      if(req.params.id){
+        return res.status(200).json({
+          message: "succes!",
+          error: true,
+        });
+      }
+      
+      if(!req.params.id){
+        return res.status(400).send();
+      }
+      res.send(deleteData);
+    }catch (error) {
+    return res.status(500).json({ message: error.message });
     }
-  }
+}
 }
 
 export const userControl = new UserControl();

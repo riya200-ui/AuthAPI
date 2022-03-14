@@ -10,5 +10,6 @@ const router = express.Router();
 router.get("/", scrapActivityControl.getScrapActivity);
 
 router.post('/', scrapActivityControl.createScrapActivity);
+router.delete('/:id', scrapActivityControl.deletescrapActivity);
 
 export default router;

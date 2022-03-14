@@ -71,80 +71,24 @@ export class ScrapTagControl {
         }
     }
     
-    /*async source(req, res){
+    
+    async deletescrapTag(req,res)  {
       try{
-      Sources.findById(req.body.sourceId)
-        .then(Sources => {
-          if (!Sources) {
-            return res.status(404).json({
-              message: "Sources not found"
-            });
-          }
-          const scrapTag = new ScrapTag({
-            _id: mongoose.Types.ObjectId(),
-            tag: req.body.tag,
-            Sources: req.body.SourcesId
+        const deleteData = await ScrapTag.findByIdAndDelete(req.params.id);
+        /*if(req.params.id){
+          return res.status(200).json({
+            message: "succes!",
+            error: true,
           });
-          return scrapTag.save();
-        })
-        .then(result => {
-          console.log(result);
-          res.status(201).json({
-            message: "ScrapTag stored",
-            createdScrapTag: {
-              _id: result._id,
-              Sources: result.sources,
-              tag: result.tag
-            },
-            request: {
-              type: "GET",
-              //url: "http://localhost:3000/orders/" + result._id
-            }
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            error: err
-          });
-        });
-      }catch (error) {
-        return res.status(500).json({ message: error.message });
+        }*/
+        if(!req.params.id){
+          return res.status(400).send();
         }
-    
-    }
-    
-    async scrapTagId(req, res) {
-      try{
-      ScrapTag.findById(req.params.scrapTagId)
-        .exec()
-        .then(scrapTag => {
-          if (!scrapTag) {
-            return res.status(404).json({
-              message: "scrapTag not found"
-            });
-          }
-          res.status(200).json({
-            scrapTag: scrapTag,
-            request: {
-              type: "GET",
-              //url: "http://localhost:3000/orders"
-            }
-          });
-        })
-        .catch(err => {
-          res.status(500).json({
-            error: err
-          });
-        });
+        res.send(deleteData);
       }catch (error) {
-        return res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
       }
-
-    }*/
-    
-    
-    
+  }
 }
 
       export const scrapTagControl = new ScrapTagControl()
