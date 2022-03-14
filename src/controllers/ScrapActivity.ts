@@ -99,5 +99,23 @@ export class ScrapActivityControl {
         return res.status(500).json({ message: error.message });
         }
     }
+
+    async deletescrapActivity(req,res)  {
+      try{
+        const deleteData = await ScrapActivity.findByIdAndDelete(req.params.id);
+        /*if(req.params.id){
+          return res.status(200).json({
+            message: "succes!",
+            error: true,
+          });
+        }*/
+        if(!req.params.id){
+          return res.status(400).send();
+        }
+        res.send(deleteData);
+      }catch (error) {
+      return res.status(500).json({ message: error.message });
+      }
+  }
   }
 export const scrapActivityControl = new ScrapActivityControl()

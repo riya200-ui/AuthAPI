@@ -134,5 +134,23 @@ export class ScrapReviewDataControl {
         return res.status(500).json({ message: error.message });
         }
     }
+
+    async deletescrapReviewData(req,res)  {
+      try{
+        const deleteData = await ScrapReviewData.findByIdAndDelete(req.params.id);
+        /*if(req.params.id){
+          return res.status(200).json({
+            message: "succes!",
+            error: true,
+          });
+        }*/
+        if(!req.params.id){
+          return res.status(400).send();
+        }
+        res.send(deleteData);
+      }catch (error) {
+      return res.status(500).json({ message: error.message });
+      }
+  }
   }
 export const scrapReviewDataControl = new ScrapReviewDataControl()

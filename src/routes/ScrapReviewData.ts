@@ -10,5 +10,6 @@ const router = express.Router();
 router.get("/", scrapReviewDataControl.getscrapReviewData);
 
 router.post('/', scrapReviewDataControl.createscrapReviewData);
+router.delete('/:id', scrapReviewDataControl.deletescrapReviewData);
 
 export default router;

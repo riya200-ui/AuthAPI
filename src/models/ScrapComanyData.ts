@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const scrapCompanyDataSchema = new mongoose.Schema(
   {
-    scrapCompanyDataID: {
+    scrapCompanyDataId: {
       type: mongoose.Schema.Types.ObjectId,
     },
     scrapActivity: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapActivity', required: [true, "Please enter your scrapactivityId!"]},
