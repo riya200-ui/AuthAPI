@@ -8,6 +8,7 @@ import helmet from "helmet";
 
 // import path from "path";
 // import fileUpload from "express-fileupload";
+//"dev": "tsc-watch --onSuccess \"node ./index.ts\"",
 
 (() => {
   const app = express();
@@ -36,6 +37,7 @@ import helmet from "helmet";
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify : false,
     },
     (err) => {
       if (err) throw err;

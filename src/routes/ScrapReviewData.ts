@@ -11,5 +11,7 @@ router.get("/", scrapReviewDataControl.getscrapReviewData);
 
 router.post('/', scrapReviewDataControl.createscrapReviewData);
 router.delete('/:id', scrapReviewDataControl.deletescrapReviewData);
+router.patch('/:id', scrapReviewDataControl.updatescrapReviewData);
+//db--useFindAndModify:false
 
 export default router;

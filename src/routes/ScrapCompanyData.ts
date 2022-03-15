@@ -11,5 +11,6 @@ router.get("/", scrapCompanyDataControl.getscrapCompanyData);
 
 router.post('/', scrapCompanyDataControl.createscrapCompanyData);
 router.delete('/:id', scrapCompanyDataControl.deletescrapCompanyData);
+router.patch('/:id', scrapCompanyDataControl.updatescrapCompanyData);
 
 export default router;

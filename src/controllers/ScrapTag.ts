@@ -89,6 +89,26 @@ export class ScrapTagControl {
       return res.status(500).json({ message: error.message });
       }
   }
+    
+  async updatescrapTag(req,res)  {
+    try{
+      //{_id =db id, id=const}(idobject,update krna)
+      const updateData = await ScrapTag.findByIdAndUpdate(req.params.id,req.body, {new:true});
+      
+      if(req.params.id){
+        return res.status(200).json({
+          message: "succes!",
+          error: true,
+        });
+      }
+      if(!req.params.id){
+        return res.status(400).send();
+      }
+      res.send(updateData);
+    }catch(error) {
+    return res.status(500).json({ message: error.message });
+    }
+}
 }
 
       export const scrapTagControl = new ScrapTagControl()

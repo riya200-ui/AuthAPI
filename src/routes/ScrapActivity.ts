@@ -11,5 +11,6 @@ router.get("/", scrapActivityControl.getScrapActivity);
 
 router.post('/', scrapActivityControl.createScrapActivity);
 router.delete('/:id', scrapActivityControl.deletescrapActivity);
+router.patch('/:id', scrapActivityControl.updatescrapActivity);
 
 export default router;
