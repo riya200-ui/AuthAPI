@@ -14,7 +14,7 @@ import ScrapActivity from "./ScrapActivity";
 router.use("/scrapActivity", ScrapActivity);
 
 import ScrapCompanyData from "./ScrapCompanyData";
-router.use("/scrapComapnyData", ScrapCompanyData);
+router.use("/scrapCompanyData", ScrapCompanyData);
 
 import ScrapReviewData from "./ScrapReviewData";
 router.use("/scrapReviewData", ScrapReviewData);

@@ -157,6 +157,7 @@ export class ScrapReviewDataControl {
     try{
       //{_id =db id, id=const}(idobject,update krna)
       const updateData = await ScrapReviewData.findByIdAndUpdate(req.params.id,req.body, {new:true});
+      
       if(req.params.id){
         return res.status(200).json({
           message: "succes!",
