@@ -21,7 +21,7 @@ export class ScrapReviewDataControl {
         scrapCompanyData: mongoose.Schema.Types.ObjectId,
         user: mongoose.Schema.Types.ObjectId,
         review: String,
-        //cname: String,
+        cname: String,
         //company url
         url:String ,
         //manually add data
@@ -43,8 +43,8 @@ export class ScrapReviewDataControl {
       res: Response
     ) {
       try {
-        const {scrapActivity, scrapCompanyData, user, industry, url,location, status,  rate ,review,
-        clientEmail,clientLinkedinURL,clientName,clientPhoneNumber,contactDate,contactNotes} = req.body;
+        const {scrapActivity, scrapCompanyData, user, industry, url,location, status,  rate ,review,cname
+        ,clientEmail,clientLinkedinURL,clientName,clientPhoneNumber,contactDate,contactNotes} = req.body;
 
         
   
@@ -80,6 +80,7 @@ export class ScrapReviewDataControl {
             scrapActivity,
             scrapCompanyData,
             user,
+            cname,
             industry, 
             url,
             location, 
@@ -111,13 +112,14 @@ export class ScrapReviewDataControl {
           //from model ScrapCompanyData
           ScrapReviewData.find()
         // .select(" tag , _id")
-        .select("scrapCompanyData  userId  url _id clientEmail clientLinkedinURL clientName clientPhoneNumber")
-        .populate('scrapCompanyData', 'scrapCompanyDataId')
+        .select("scrapCompanyData  userId cname review url _id clientEmail clientLinkedinURL clientName clientPhoneNumber")
+        //.select("review : { $where: function() {return (isObject()(this.review) == "scrapCompanyData")} }")
+        // .populate('scrapCompanyData', 'scrapCompanyDataId')
     .populate('scrapActivity', 'scrapActivityId')
     //in database user=userid from model ref user=name
     .populate('user', 'userId')
     //company name
-    .populate('scrapCompanyData', 'company')
+    .populate('scrapCompanyData', 'cname')
         .exec()
         .then(response => {
           res.status(200).json({

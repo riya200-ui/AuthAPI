@@ -1,6 +1,7 @@
 import "dotenv/config";
 import ScrapCompanyData from "../models/ScrapComanyData";
 import mongoose from "mongoose";
+import ScrapReviewData from "../models/ScrapReviewData";
 
 
 import { Request, Response } from "express";
@@ -18,6 +19,7 @@ export interface Payload {
 export class ScrapCompanyDataControl {
     async createscrapCompanyData(
       req: TypedRequest<{ scrapActivity: mongoose.Schema.Types.ObjectId,
+        scrapReviewData: mongoose.Schema.Types.ObjectId,
         user: mongoose.Schema.Types.ObjectId,
         cname: String,
         //company url
@@ -33,7 +35,7 @@ export class ScrapCompanyDataControl {
       res: Response
     ) {
       try {
-        const { scrapActivity, user, cname, url,location, status, size, rate } = req.body;
+        const { scrapActivity, user, cname, url,location, status, size, rate,scrapReviewData } = req.body;
         /*if(scrapActivity || user || cname || url || location || status || size || rate){
           return res.status(200).json({
             message: "succes!",
@@ -77,7 +79,8 @@ export class ScrapCompanyDataControl {
             location,
             status,
             size,
-            rate 
+            rate ,
+            scrapReviewData
         });
         await newScrapCompanyData.save();
   
@@ -93,12 +96,24 @@ export class ScrapCompanyDataControl {
     // @ts-ignore
     async getscrapCompanyData(req: TypedRequest?, res: Response) {
       try{
+        const id = req.params.id;
+        ScrapReviewData.find()
+        .select("id review cname")
+        .then(response => {
+          res.status(200).json({
+            count: response.length,
+            data: response
+          })
+        })
+      
           //export default mongoose.model("ScrapCompanyData", ScrapCompanyDataSchema);
           //from model ScrapCompanyData
           ScrapCompanyData.find()
         // .select(" tag , _id")
-        .select("scrapActivity user cname url _id")
-    .populate('scrapActivity', 'scrapActivityId')
+        .select("scrapActivity user scrapReviewDataIdcname url _id")
+        .populate('scrapReviewData','review')
+        .populate('scrapActivity', 'scrapActivityId')
+        .populate('reviews','review')
     //in database user=userid from model ref user=name
     .populate('user', 'userId')
     //company name

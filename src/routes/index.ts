@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express();
+//entry
 
 import User from "./User";
 router.use("/user", User);
@@ -18,6 +19,9 @@ router.use("/scrapCompanyData", ScrapCompanyData);
 
 import ScrapReviewData from "./ScrapReviewData";
 router.use("/scrapReviewData", ScrapReviewData);
+
+import Dashboard from "./Dashboard";
+router.use("/dashboard", Dashboard);
 
 
 

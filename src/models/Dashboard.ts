@@ -2,12 +2,12 @@ import "dotenv/config";
 import mongoose from "mongoose";
 //import jwt from 'jsonwebtoken';
 
-const scrapReviewDataSchema = new mongoose.Schema(
+const dashboardSchema = new mongoose.Schema(
   {
     scrapReviewDataId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-    scrapCompanyData: { type: mongoose.Schema.Types.ObjectId || String, ref: 'ScrapCompanyData'},
+    scrapCompanyData: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapCompanyData', required: [true, "Please enter your scrapcompany ids!"]},
     scrapActivity: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapActivity', required: [true, "Please enter your scrapactivityId!"]},
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -42,20 +42,22 @@ const scrapReviewDataSchema = new mongoose.Schema(
     },
     clientName: {
       type: String,
+      minlength : 3,
       
       required: [true, "Please enter client name!"],
     },
     clientEmail: {
       type: String,
       required: [true, "Please enter your email!"],
-      trim: true,
-      index:true
+      trim: true
       
     },
     clientPhoneNumber: {
       type: Number,
       required: [true, "Please enter your phonenumber!"],
       // select:false
+      maxlength:10,
+      minlength:10
     },
     clientLinkedinURL: {
         type: String,
@@ -68,7 +70,7 @@ const scrapReviewDataSchema = new mongoose.Schema(
         trim: true,
     },
     contactDate: {
-        type: String,
+        type: Date,
         required: [true, "Please enter your contactdate!"],
         trim: true,
     },
@@ -86,4 +88,4 @@ const scrapReviewDataSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("ScrapReviewData", scrapReviewDataSchema);
+export default mongoose.model("Dashboard", dashboardSchema);
