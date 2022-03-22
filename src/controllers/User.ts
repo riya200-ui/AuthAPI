@@ -334,8 +334,15 @@ export class UserControl {
         { _id: req.user?.id },
         {
           password: hashedPassword,
-        }
+        },
+         {new:true}
       );
+      const newUser = new Users({
+        
+        password: hashedPassword,
+        
+      });
+      await newUser.save();
 
       return res
         .status(200)
@@ -355,7 +362,7 @@ export class UserControl {
       // get user new password from client
       const { email, password, newpassword } = req.body;
 
-      if (!email || !password) {
+      if (!email || !password || !newpassword) {
         return res.status(400).json({
           message: "Please fill in all fields correctly!",
           error: true,
@@ -380,8 +387,10 @@ export class UserControl {
           {
             password: hashedPassword,
           }
-        );
+          , {new:true}
+        ).save()
       }
+      //const newUser =await newUser.save();
       return res
         .status(200)
         .json({ message: "your password successully changed!" });
@@ -401,9 +410,9 @@ export class UserControl {
     }
   }
 
-  async getAllUsersInformation(_req: Request, res: Response) {
+  async getUsers(_req: Request, res: Response) {
     try {
-      const users = await Users.find().select("password");
+      const users = await Users.find().select("password _id email");
 
       return res
         .status(200)

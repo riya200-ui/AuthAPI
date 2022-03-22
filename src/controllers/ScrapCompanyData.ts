@@ -44,7 +44,7 @@ export class ScrapCompanyDataControl {
         }*/
         
   
-        if (!scrapActivity || !user || !cname || !url || !location || !status || !size || !rate ) {
+        if (!scrapActivity  || !cname || !url || !location || !status || !size || !rate ) {
           return res.status(400).json({
             message: "Please fill in all fields correctly!",
             error: true,
@@ -97,27 +97,13 @@ export class ScrapCompanyDataControl {
     async getscrapCompanyData(req: TypedRequest?, res: Response) {
       try{
         const id = req.params.id;
-        ScrapReviewData.find()
-        .select("id review cname")
-        .then(response => {
-          res.status(200).json({
-            count: response.length,
-            data: response
-          })
-        })
-      
-          //export default mongoose.model("ScrapCompanyData", ScrapCompanyDataSchema);
-          //from model ScrapCompanyData
-          ScrapCompanyData.find()
-        // .select(" tag , _id")
-        .select("scrapActivity user scrapReviewDataIdcname url _id")
+        
+        ScrapCompanyData.find()
+       .select("scrapActivity user scrapReviewData cname url _id review")
         .populate('scrapReviewData','review')
-        .populate('scrapActivity', 'scrapActivityId')
-        .populate('reviews','review')
-    //in database user=userid from model ref user=name
-    .populate('user', 'userId')
-    //company name
-    
+        .populate('scrapActivity','scrapActivityId')
+        .populate('user')
+        
         .exec()
         .then(response => {
           res.status(200).json({

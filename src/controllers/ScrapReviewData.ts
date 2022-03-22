@@ -35,7 +35,7 @@ export class ScrapReviewDataControl {
         clientEmail:String,
         clientPhoneNumber:String,
         clientLinkedinURL:String,
-        contactDate:String,
+        contactDate:Date,
         contactNotes:String,
 
         
@@ -48,8 +48,8 @@ export class ScrapReviewDataControl {
 
         
   
-        if ( !scrapActivity || !scrapCompanyData || !user || !industry || !url || !location || !status || !rate  || !review ||
-            !clientEmail || !clientLinkedinURL || !clientName || !clientPhoneNumber || !contactDate || !contactNotes) {
+        if ( !scrapCompanyData  || !industry || !url || !location || !status || !rate  || !review ||
+            !clientEmail || !clientLinkedinURL || !clientName || !clientPhoneNumber || !contactNotes) {
           return res.status(400).json({
             message: "Please fill in all fields correctly!",
             error: true,

@@ -7,12 +7,12 @@ const scrapReviewDataSchema = new mongoose.Schema(
     scrapReviewDataId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-    scrapCompanyData: { type: mongoose.Schema.Types.ObjectId || String, ref: 'ScrapCompanyData'},
-    scrapActivity: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapActivity', required: [true, "Please enter your scrapactivityId!"]},
+    //scrapCompanyData: { type: mongoose.Schema.Types.ObjectId || String, ref: 'ScrapCompanyData'},
+    scrapActivity: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapActivity'},
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Users',
-      required: [true, "Please enter your userId!"],
+      //required: [true, "Please enter your userId!"],
     },
     review: {
         type: String,
@@ -68,8 +68,8 @@ const scrapReviewDataSchema = new mongoose.Schema(
         trim: true,
     },
     contactDate: {
-        type: String,
-        required: [true, "Please enter your contactdate!"],
+        type: Date,
+        //required: [true, "Please enter your contactdate!"],
         trim: true,
     },
     status: {
@@ -77,12 +77,13 @@ const scrapReviewDataSchema = new mongoose.Schema(
         required: [true, "Please enter your status!"],
         trim: true,
       },
+      created_at: {
+        type : Date
+      }
 
-    
-    
   },
   {
-    timestamps: true,
+    timestamps: { createdAt: 'created_at' },
   }
 );
 

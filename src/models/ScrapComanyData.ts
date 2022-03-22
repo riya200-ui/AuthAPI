@@ -9,13 +9,14 @@ const scrapCompanyDataSchema = new mongoose.Schema(
     },
     scrapActivity: { type: mongoose.Schema.Types.ObjectId, ref: 'ScrapActivity', required: [true, "Please enter your scrapactivityId!"]},
     
-    scrapReviewData: { type: mongoose.Schema.Types.ObjectId || String ,ref: 'ScrapReviewData'},
+    reviews: { type: String, ref: 'ScrapReviewData'},
+    scrapReviewData: [{ type: mongoose.Schema.Types.ObjectId || String , ref: 'ScrapReviewData'}],
 
     
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Users',
-      required: [true, "Please enter your userId!"],
+      //required: [true, "Please enter your userId!"],
     },
     cname: {
       type: String,

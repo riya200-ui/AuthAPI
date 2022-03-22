@@ -79,12 +79,16 @@ const dashboardSchema = new mongoose.Schema(
         required: [true, "Please enter your status!"],
         trim: true,
       },
+      created_at:{
+        type : Date
+      }
+
 
     
     
   },
   {
-    timestamps: true,
+    timestamps: { createdAt: 'created_at' },
   }
 );
 

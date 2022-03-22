@@ -6,6 +6,7 @@ import { userControl } from "../controllers/User";
 const router = express.Router();
 
 //export class UserControl {async register( register from here
+router.get("/", userControl.getUsers);
 router.post("/register", userControl.register);
 
 router.post("/emailVerificataion", userControl.emailVerificataion);

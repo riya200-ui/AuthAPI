@@ -15,5 +15,5 @@ router.get('/contact', dashboardControl.getcontacts);
 router.get('/lead', dashboardControl.getleads);
 router.get('/week', dashboardControl.contactedthisweek);
 router.get('/contactsbymonths', dashboardControl.contactsbymonths);
-//router.get('/leadsbymonths', dashboardControl.leadsbymonths);
+router.get('/leadsbymonths', dashboardControl.leadsbymonths);
 export default router;
